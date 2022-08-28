@@ -1,23 +1,20 @@
-Includes test cases using the Pytest framework and Selenium Webdriver
+<h3>Includes test cases using the Pytest framework and Selenium Webdriver</h3>
 
 Eyyub Eren
 
-Test Case 1: Hatali girislerde sistem hata mesaji gostermelidir (4 farkli test icerir) - Parametrize ve Dictionary kullanildi 
+<h4>Test Case 1: Hatali girislerde sistem hata mesaji gostermelidir (4 farkli test icerir) - Parametrize ve Dictionary kullanildi</h4>
 
-1- Kullanici adi ve sifre girdi alanlari bos oldugu durum 
-
-2- Kullanici adi girdi alani bos oldugu durum
-
-3- Sifre alani bos oldugu durum
-
-4- Kullanici adi ve sifre girdi alanlari dogru ancak bu bilgide kullanicinin olmadigi durum
+- Kullanici adi ve sifre girdi alanlari bos oldugu durum 
+- Kullanici adi girdi alani bos oldugu durum
+- Sifre alani bos oldugu durum
+- Kullanici adi ve sifre girdi alanlari dogru ancak bu bilgide kullanicinin olmadigi durum
 
 
-Test Case 2: Urunler sepete eklenebilmelidir
+<h4>Test Case 2: Urunler sepete eklenebilmelidir</h4>
 
-On Kosullar: - Sisteme giris yapilmis olmalidir
+<b>On Kosullar:</b> Sisteme giris yapilmis olmalidir
       
       
-Test Case 3: Sistemden cikis yapildiginda sepete ulasilamamalidir
+<h4>Test Case 3: Sistemden cikis yapildiginda sepete ulasilamamalidir</h4>
 
-On Kosullar: - Sisteme giris yapilmis olmalidir
+<b>On Kosullar:</b> Sisteme giris yapilmis olmalidir
