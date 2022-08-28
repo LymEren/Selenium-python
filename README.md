@@ -1,4 +1,3 @@
-Eyyub Eren
 Includes test cases using the Pytest framework and Selenium Webdriver
 
 Test Case 1: Hatali girislerde sistem hata mesaji gostermelidir (4 farkli test icerir) - Parametrize ve Dictionary kullanildi 
