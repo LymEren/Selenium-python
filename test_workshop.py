@@ -11,7 +11,10 @@
 #
 # Test Case 3: Sistemden cikis yapildiginda sepete ulasilamamalidir
 #       On Kosullar: - Sisteme giris yapilmis olmalidir
-
+#
+# Test Case 4: Urunler isim ve fiyata gore siralanabilmelidir
+#       On Kosullar: - Sisteme giris yapilmis olmalidir
+#
 
 from cgitb import text
 from lib2to3.pgen2 import driver
@@ -23,6 +26,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from datetime import date
 
 
 ##############################################################################################
@@ -138,6 +142,7 @@ class Test_basket_control:
 
 class Test_log_out_basket:
 
+
     def setup_method(self):
         self.driver = webdriver.Chrome()
 
@@ -187,3 +192,81 @@ class Test_log_out_basket:
         assert errorMessage.text.strip() == "Epic sadface: You can only access '/cart.html' when you are logged in."
 
         sleep(3)
+
+
+##############################################################################################
+
+# Test Case 4: Urunler isim ve fiyata gore siralanabilmelidir
+
+
+class Test_sort_by:
+
+    item_list = {
+        "First"  : ["Sauce Labs Backpack","29.99"],
+        "Second" : ["Sauce Labs Bike Light","9.99"],
+        "Third"  : ["Sauce Labs Bolt T-Shirt","15.99"],
+        "Fourth" : ["Sauce Labs Fleece Jacket","49.99"],
+        "Fifth"  : ["Sauce Labs Onesie","7.99"],
+        "Sixth"  : ["Test.allTheThings() T-Shirt (Red)","15.99"]
+    }
+
+    def setup_method(self):
+        self.driver = webdriver.Chrome()
+
+    def teardown_method(self):
+        self.driver.quit()
+
+    def test_sort_by(self):
+        
+        # Login 
+        self.driver.get("https://www.saucedemo.com/")
+
+        WebDriverWait(self.driver,3).until(expected_conditions.visibility_of_element_located((By.ID,"user-name")))
+
+        email_log = self.driver.find_element(By.ID,"user-name")
+        email_log.send_keys("standard_user")
+        
+        password_log = self.driver.find_element(By.ID,"password")
+        password_log.send_keys("secret_sauce")
+
+        login_button = self.driver.find_element(By.ID,"login-button")
+        login_button.click()
+        WebDriverWait(self.driver,5).until(expected_conditions.visibility_of_element_located((By.ID,"shopping_cart_container")))    
+
+
+        # Sort By Name (A to Z)
+        sortby = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[1]/div[2]/div[2]/span/select/option[1]")
+        sortby.click()
+        first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
+        sleep(1)
+        assert first_item.text == self.item_list["First"][0]
+        # Take ScreenShot
+        sleep(1)
+        self.driver.save_screenshot(f"sort_of_atoz_{date.today()}.png")
+        
+        # Sort By Name (Z to A)
+        sortby = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[1]/div[2]/div[2]/span/select/option[2]")
+        sortby.click()
+        first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
+        sleep(1)
+        assert first_item.text == self.item_list["Sixth"][0]
+        sleep(1)
+        self.driver.save_screenshot(f"sort_of_ztoa_{date.today()}.png")
+
+        # Sort By Price (Low to High)
+        sortby = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[1]/div[2]/div[2]/span/select/option[3]")
+        sortby.click()
+        first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
+        sleep(1)
+        assert first_item.text == self.item_list["Fifth"][0]
+        sleep(1)
+        self.driver.save_screenshot(f"sort_of_lowprice_{date.today()}.png")
+
+        # Sort By Price (High to Low)
+        sortby = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[1]/div[2]/div[2]/span/select/option[4]")
+        sortby.click()
+        first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
+        sleep(1)
+        assert first_item.text == self.item_list["Fourth"][0]
+        sleep(1)
+        self.driver.save_screenshot(f"sort_of_highprice_{date.today()}.png")
