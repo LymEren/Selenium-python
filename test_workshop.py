@@ -102,7 +102,7 @@ class Test_basket_control:
 
         login_button = self.driver.find_element(By.ID,"login-button")
         login_button.click()
-        sleep(1)
+        WebDriverWait(self.driver,5).until(expected_conditions.visibility_of_element_located((By.ID,"shopping_cart_container")))
 
         #### Add Basket
 
@@ -160,8 +160,8 @@ class Test_log_out_basket:
 
         login_button = self.driver.find_element(By.ID,"login-button")
         login_button.click()
-        sleep(1)
-        
+        WebDriverWait(self.driver,5).until(expected_conditions.visibility_of_element_located((By.ID,"shopping_cart_container")))
+
         # Add some item to basket
 
         item_select = self.driver.find_element(By.NAME,"add-to-cart-sauce-labs-backpack")
