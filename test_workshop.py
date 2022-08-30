@@ -14,6 +14,7 @@
 
 
 from cgitb import text
+from lib2to3.pgen2 import driver
 from unittest import expectedFailure
 import pytest
 from selenium import webdriver
@@ -39,11 +40,16 @@ class Test_wrong_login:
         
     }
 
+    def setup_method(self):
+        self.driver = webdriver.Chrome()
 
+    def teardown_method(self):
+        self.driver.quit()
+    
     @pytest.mark.parametrize("username,password,result",[("","","Both Blank"),("","123","Username Blank"),("user","","Password Blank"),("user","123","Wrong User")])
     def test_wrong_logins(self,username,password,result):
         
-        self.driver = webdriver.Chrome()
+        
         self.driver.get("https://www.saucedemo.com/")
         
         
@@ -66,8 +72,6 @@ class Test_wrong_login:
 
         assert self.expected_login_errors[result][0] == errorMessage.text.strip()
 
-        self.driver.quit()
-
 
 
 ##############################################################################################
@@ -76,11 +80,16 @@ class Test_wrong_login:
 
 class Test_basket_control:
 
+    def setup_method(self):
+        self.driver = webdriver.Chrome()
+
+    def teardown_method(self):
+        self.driver.quit()
+
     def test_basket_control(self):
 
         #### Login 
 
-        self.driver = webdriver.Chrome()
         self.driver.get("https://www.saucedemo.com/")
 
         WebDriverWait(self.driver,3).until(expected_conditions.visibility_of_element_located((By.ID,"user-name")))
@@ -121,8 +130,6 @@ class Test_basket_control:
         assert self.driver.find_element(By.ID,"item_0_title_link").text == "Sauce Labs Bike Light"
         assert self.driver.find_element(By.ID,"item_1_title_link").text == "Sauce Labs Bolt T-Shirt"
 
-        self.driver.quit()
-
 
 ##############################################################################################
 
@@ -131,11 +138,16 @@ class Test_basket_control:
 
 class Test_log_out_basket:
 
+    def setup_method(self):
+        self.driver = webdriver.Chrome()
+
+    def teardown_method(self):
+        self.driver.quit()
+
     def test_log_out_basket(self):
         
         # Login 
 
-        self.driver = webdriver.Chrome()
         self.driver.get("https://www.saucedemo.com/")
 
         WebDriverWait(self.driver,3).until(expected_conditions.visibility_of_element_located((By.ID,"user-name")))
@@ -175,5 +187,3 @@ class Test_log_out_basket:
         assert errorMessage.text.strip() == "Epic sadface: You can only access '/cart.html' when you are logged in."
 
         sleep(3)
-
-        self.driver.quit()
