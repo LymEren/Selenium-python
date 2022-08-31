@@ -18,3 +18,6 @@ Eyyub Eren
 <h4>Test Case 3: Sistemden cikis yapildiginda sepete ulasilamamalidir</h4>
 
 <b>On Kosullar:</b> Sisteme giris yapilmis olmalidir
+
+<h4>Test Case 4: Urunler isim ve fiyata gore siralanabilmelidir</h4>
+<b>On Kosullar:</b> Sisteme giris yapilmis olmalidir
