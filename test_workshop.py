@@ -27,7 +27,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from datetime import date
-
+import constants
 
 ##############################################################################################
 
@@ -36,13 +36,7 @@ from datetime import date
 class Test_wrong_login:
 #This class includes login tests
 
-    expected_login_errors = {
-        "Both Blank"     : ["Epic sadface: Username is required"],
-        "Username Blank" : ["Epic sadface: Username is required"],
-        "Password Blank" : ["Epic sadface: Password is required"],
-        "Wrong User"     : ["Epic sadface: Username and password do not match any user in this service"]
-        
-    }
+
 
     def setup_method(self):
         self.driver = webdriver.Chrome()
@@ -73,9 +67,7 @@ class Test_wrong_login:
         sleep(1)
         
         # We compared the expected result with the actual result
-
-        assert self.expected_login_errors[result][0] == errorMessage.text.strip()
-
+        assert constants.login_errors[result][0] == errorMessage.text.strip()
 
 
 ##############################################################################################
@@ -201,14 +193,6 @@ class Test_log_out_basket:
 
 class Test_sort_by:
 
-    item_list = {
-        "First"  : ["Sauce Labs Backpack","29.99"],
-        "Second" : ["Sauce Labs Bike Light","9.99"],
-        "Third"  : ["Sauce Labs Bolt T-Shirt","15.99"],
-        "Fourth" : ["Sauce Labs Fleece Jacket","49.99"],
-        "Fifth"  : ["Sauce Labs Onesie","7.99"],
-        "Sixth"  : ["Test.allTheThings() T-Shirt (Red)","15.99"]
-    }
 
     def setup_method(self):
         self.driver = webdriver.Chrome()
@@ -239,7 +223,7 @@ class Test_sort_by:
         sortby.click()
         first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
         sleep(1)
-        assert first_item.text == self.item_list["First"][0]
+        assert first_item.text == constants.item_list["First"][0]
         # Take ScreenShot
         sleep(1)
         self.driver.save_screenshot(f"sort_of_atoz_{date.today()}.png")
@@ -249,7 +233,7 @@ class Test_sort_by:
         sortby.click()
         first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
         sleep(1)
-        assert first_item.text == self.item_list["Sixth"][0]
+        assert first_item.text == constants.item_list["Sixth"][0]
         sleep(1)
         self.driver.save_screenshot(f"sort_of_ztoa_{date.today()}.png")
 
@@ -258,7 +242,7 @@ class Test_sort_by:
         sortby.click()
         first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
         sleep(1)
-        assert first_item.text == self.item_list["Fifth"][0]
+        assert first_item.text == constants.item_list["Fifth"][0]
         sleep(1)
         self.driver.save_screenshot(f"sort_of_lowprice_{date.today()}.png")
 
@@ -267,6 +251,6 @@ class Test_sort_by:
         sortby.click()
         first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
         sleep(1)
-        assert first_item.text == self.item_list["Fourth"][0]
+        assert first_item.text == constants.item_list["Fourth"][0]
         sleep(1)
         self.driver.save_screenshot(f"sort_of_highprice_{date.today()}.png")
