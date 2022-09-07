@@ -48,8 +48,7 @@ class Test_wrong_login:
     def test_wrong_logins(self,username,password,result):
         
         
-        self.driver.get("https://www.saucedemo.com/")
-        
+        self.driver.get("https://www.saucedemo.com")
         
         WebDriverWait(self.driver,3).until(expected_conditions.visibility_of_element_located((By.ID,"user-name")))
 
@@ -251,6 +250,9 @@ class Test_sort_by:
         sortby.click()
         first_item = self.driver.find_element(By.XPATH,"/html/body/div/div/div/div[2]/div/div/div/div[1]/div[2]/div[1]/a/div")
         sleep(1)
-        assert first_item.text == constants.item_list["Fourth"][0]
+        assert first_item.text == constants.item_list["Fourth"][0] 
         sleep(1)
         self.driver.save_screenshot(f"sort_of_highprice_{date.today()}.png")
+
+        # get.attribute.type = Password type
+        #

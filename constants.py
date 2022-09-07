@@ -4,12 +4,11 @@ login_errors = {
     "Both Blank"     : ["Epic sadface: Username is required"],
     "Username Blank" : ["Epic sadface: Username is required"],
     "Password Blank" : ["Epic sadface: Password is required"],
-    "Wrong User"     : ["Epic sadface: Username and password do not match any user in this service"]
-    
+    "Wrong User"     : ["Epic sadface: Username and password do not match any user in this service"]  
 }
 
 
-# Item Names and Prices
+# Item Name and Price List
 
 item_list = {
     "First"  : ["Sauce Labs Backpack","29.99"],
