@@ -52,7 +52,7 @@ class Test_wrong_login:
         
         WebDriverWait(self.driver,3).until(expected_conditions.visibility_of_element_located((By.ID,"user-name")))
 
-        email_log = self.driver.find_element(By.ID,"user-name")
+        email_log = self.driver.find_element(By.ID,"usler-name")
         email_log.send_keys(username)
         
         password_log = self.driver.find_element(By.ID,"password")
