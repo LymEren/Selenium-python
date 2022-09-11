@@ -48,7 +48,7 @@ class TestSistemeGiris():
     
     # Customer Search ekrani gorunene kadar bekleyen komut
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.XPATH, "/html/body/app-root/ng-component/div/div/div/div[2]/div/app-container/p")))
-
+    sleep(1)
     # Son olarak "Search Results" yazisini kontrol ederek, giris yapildigini dogruluyoruz ve testimiz bu yaziya gore true veya false donuyor
     assert self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div/div/div[2]/div/app-container/p").text == "SEARCH RESULT"
   
