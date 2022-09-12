@@ -56,37 +56,39 @@ class TestSistemeGiris():
 
   # Customer Account Detaylarini kontrol eden test
 class TestCustomerAccount():
-  
-  def setup_method(self, method):
+  def setup_method(self):
     self.driver = webdriver.Chrome()
   
-  def teardown_method(self, method):
+  def teardown_method(self):
     self.driver.quit()
-
-
+  
   def test_customerAccount(self):
+
+    # URL 
     self.driver.get("http://localhost:4200/customer-dashboard")
+    # Yeniden boyutlandirdik
     self.driver.set_window_size(1552, 849)
-    sleep(1)
-    searcher = self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div/div/div[1]/app-side-filter/div/div[2]/form/input[5]")
-    searcher.send_keys("nappie")
+
+    # First Name girdi alani icin degisken tanimlandi
+    firstName = self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div/div/div[1]/app-side-filter/div/div[2]/form/input[5]")
+    firstName.send_keys("nappie")
+    sleep(2)
+    self.driver.find_element(By.CLASS_NAME, "e-btn-search").click()
+    sleep(2)
     
-    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div/div/div[2]/div/app-container/div").click()
-    sleep(1)
-    element = self.driver.find_element(By.CSS_SELECTOR, "e-btn-search")
-
-    # Action chains ile bir olaylar zinciri olusturduk
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element).perform()
-    element = self.driver.find_element(By.CSS_SELECTOR, "body")
-    actions = ActionChains(self.driver)
-    actions.move_to_element(element, 0, 0).perform()
-
+    # Cust ID si 2 olan kullaniciya tikladik
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "2")))
     self.driver.find_element(By.LINK_TEXT, "2").click()
+    sleep(2)
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".row:nth-child(1) > .col-4:nth-child(2) > .e-frame-label")))
     self.driver.find_element(By.CSS_SELECTOR, "button:nth-child(2)").click()
+    sleep(2)
+
+    #Detaylari Actik
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".e-accordion-header > .col-2:nth-child(2)")))
     self.driver.find_element(By.CSS_SELECTOR, "#flush-heading1 .col-1 > img").click()
+    sleep(2)
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "#flush-collapse1 .ng-star-inserted:nth-child(1) > td:nth-child(2)")))
+    
+    # Detaylarda daha onceden belirttigimiz 70 Mbps VDSL yazisini dogruladik
     assert self.driver.find_element(By.CSS_SELECTOR, "#flush-collapse1 .ng-star-inserted:nth-child(1) > td:nth-child(2)").text == "70 Mbps VDSL"
