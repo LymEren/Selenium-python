@@ -10,6 +10,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from time import sleep
 
+
+  # Sisteme giris yapan test otomasyonu
+
 class TestSistemeGiris():
 
   # Setup Method testlerimizin baslangicinda gerceklesecek komutlari barindirir
@@ -54,8 +57,8 @@ class TestSistemeGiris():
   
   
 
-  # Customer Account Detaylarini kontrol eden test
-class TestCustomerAccount():
+  # Musterinin Customer Account sayfasindaki bilgilerinin dogru gosterildigini kontrol eden test otomasyonu
+class TestSearchCustomerAccount():
   def setup_method(self):
     self.driver = webdriver.Chrome()
   
@@ -68,7 +71,10 @@ class TestCustomerAccount():
     self.driver.get("http://localhost:4200/customer-dashboard")
     # Yeniden boyutlandirdik
     self.driver.set_window_size(1552, 849)
-
+    sleep(1)
+    body = self.driver.find_element(By.CSS_SELECTOR, "body")
+    body.send_keys(Keys.PAGE_DOWN)
+    sleep(0.5)
     # First Name girdi alani icin degisken tanimlandi
     firstName = self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div/div/div[1]/app-side-filter/div/div[2]/form/input[5]")
     firstName.send_keys("nappie")
@@ -77,6 +83,8 @@ class TestCustomerAccount():
     sleep(2)
     
     # Cust ID si 2 olan kullaniciya tikladik
+    body.send_keys(Keys.PAGE_UP)
+    sleep(1)
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.LINK_TEXT, "2")))
     self.driver.find_element(By.LINK_TEXT, "2").click()
     sleep(2)
@@ -92,3 +100,60 @@ class TestCustomerAccount():
     
     # Detaylarda daha onceden belirttigimiz 70 Mbps VDSL yazisini dogruladik
     assert self.driver.find_element(By.CSS_SELECTOR, "#flush-collapse1 .ng-star-inserted:nth-child(1) > td:nth-child(2)").text == "70 Mbps VDSL"
+
+
+  # Yeni bir kullanici (odeme) hesabi acan ve sonrasinda bilgileri kontrol eden test otomasyonu
+
+class TestCreateCustomerAccount():
+  def setup_method(self, method):
+    self.driver = webdriver.Chrome()
+  
+  def teardown_method(self, method):
+    self.driver.quit()
+  
+  def test_createCustomerAccount(self):
+    self.driver.get("http://localhost:4200/dashboard/customers/customer-billing-account-detail/2")
+    self.driver.set_window_size(1552, 849)
+    self.driver.find_element(By.CSS_SELECTOR, ".ml-5").click()
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".mt-3")))
+    self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").click()
+    self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").send_keys("Acc1")
+    self.driver.find_element(By.CSS_SELECTOR, ".e-address-desc").send_keys("Account 1")
+    sleep(1)
+    
+    # Islem yapilacak alan ekranda gorunmedigi icin sayfayi asagiya kaydirdik
+    body = self.driver.find_element(By.CSS_SELECTOR, "body")
+    body.send_keys(Keys.PAGE_DOWN)
+
+    sleep(1)
+    self.driver.find_element(By.CSS_SELECTOR, ".e-btn-new-address").click()
+    
+    dropdown = self.driver.find_element(By.ID, "gender")
+    sleep(1)
+    
+    dropdown.click()
+    sleep(1)
+    dropdown.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[1]/div/div[2]/div/select/option[6]").click()
+    sleep(1)
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[2]/div/div[2]/input").click()
+    sleep(1)
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[2]/div/div[2]/input").send_keys("21")
+    sleep(1)
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[3]/div/div[2]/input").click()
+    sleep(1)
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[3]/div/div[2]/input").send_keys("Oklahoma")
+    sleep(1)
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[4]/div/div[2]/textarea").send_keys("Oklahoma Apartment")
+    sleep(1)
+
+    body.send_keys(Keys.PAGE_DOWN)
+    sleep(0.5)
+    self.driver.find_element(By.CSS_SELECTOR, ".ml-auto > .e-btn-clear").click()
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, "th > div:nth-child(2)")))
+    sleep(1)
+    self.driver.find_element(By.CSS_SELECTOR, ".col-lg-5 > .e-btn-clear").click()
+    sleep(1)
+    self.driver.execute_script("window.scrollTo(0,0)")
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".e-layout-title")))
+    assert self.driver.find_element(By.CSS_SELECTOR, "#flush-heading3 .col-2:nth-child(4)").text == "Acc1"
+  
