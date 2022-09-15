@@ -20,8 +20,6 @@ from time import sleep
 
 
 
-
-
   ########### 1- Sisteme giris yapan test otomasyonu
 
 class TestSistemeGiris():
@@ -68,6 +66,11 @@ class TestSistemeGiris():
   
   
 
+
+
+
+
+
   ########### 2- Musterinin Customer Account sayfasindaki bilgilerinin dogru gosterildigini kontrol eden test otomasyonu
 class TestSearchCustomerAccount():
   def setup_method(self):
@@ -113,7 +116,14 @@ class TestSearchCustomerAccount():
     assert self.driver.find_element(By.CSS_SELECTOR, "#flush-collapse1 .ng-star-inserted:nth-child(1) > td:nth-child(2)").text == "70 Mbps VDSL"
 
 
-  ########### 3- Yeni bir kullanici (odeme) hesabi acan ve sonrasinda bilgileri kontrol eden test otomasyonu
+
+
+
+
+
+
+
+  ########### 3- Yeni bir kullanici (odeme) hesabi acan ve sonrasinda bilgileri kontrol eden test otomasyonu (Yavas)
 
 class TestCreateCustomerAccount_Slow():
   def setup_method(self, method):
@@ -125,15 +135,15 @@ class TestCreateCustomerAccount_Slow():
   def test_createCustomerAccount(self):
     self.driver.get("http://localhost:4200/dashboard/customers/customer-billing-account-detail/2")
     self.driver.set_window_size(1552, 849)
-    sleep(1)
+    sleep(3)
     self.driver.find_element(By.CSS_SELECTOR, ".ml-5").click()
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".mt-3")))
     sleep(1)
     self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").click()
     sleep(1)
-    self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").send_keys("Acc1")
+    self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").send_keys("Acc3")
     sleep(1)
-    self.driver.find_element(By.CSS_SELECTOR, ".e-address-desc").send_keys("Account 1")
+    self.driver.find_element(By.CSS_SELECTOR, ".e-address-desc").send_keys("Account 3 Info")
     sleep(1)
     
     # Islem yapilacak alan ekranda gorunmedigi icin sayfayi asagiya kaydirdik
@@ -141,7 +151,7 @@ class TestCreateCustomerAccount_Slow():
     body = self.driver.find_element(By.CSS_SELECTOR, "body")
     body.send_keys(Keys.PAGE_DOWN)
 
-    sleep(1)
+    sleep(3)
     self.driver.find_element(By.CSS_SELECTOR, ".e-btn-new-address").click()
     
     dropdown = self.driver.find_element(By.ID, "gender")
@@ -157,9 +167,9 @@ class TestCreateCustomerAccount_Slow():
     sleep(1)
     self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[3]/div/div[2]/input").click()
     sleep(1)
-    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[3]/div/div[2]/input").send_keys("Oklahoma")
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[3]/div/div[2]/input").send_keys("Blue Street")
     sleep(1)
-    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[4]/div/div[2]/textarea").send_keys("Oklahoma Apartment")
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[4]/div/div[2]/textarea").send_keys("Smith Apartment")
     sleep(1)
 
     body.send_keys(Keys.PAGE_DOWN)
@@ -172,7 +182,7 @@ class TestCreateCustomerAccount_Slow():
     self.driver.execute_script("window.scrollTo(0,0)")
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".e-layout-title")))
     sleep(1)
-    assert self.driver.find_element(By.CSS_SELECTOR, "#flush-heading3 .col-2:nth-child(4)").text == "Acc1"
+    assert self.driver.find_element(By.CSS_SELECTOR, "#flush-heading3 .col-2:nth-child(4)").text == "Acc3"
 
     arrow = self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/app-main-layout/div/div/div[2]/div/app-table-accordion[3]/div/div/h2/button/div/div[1]/img").click()
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".e-accordion-header > .col-2:nth-child(2)")))
@@ -180,8 +190,15 @@ class TestCreateCustomerAccount_Slow():
     body.send_keys(Keys.PAGE_DOWN)
     sleep(0.2)
 
+    sleep(2)
+
     self.driver.save_screenshot(f"new_customer_account_{date.today()}.png")
 
+
+
+
+
+########### 4- Yeni bir kullanici (odeme) hesabi acan ve sonrasinda bilgileri kontrol eden test otomasyonu (Hizli)
 
 class TestCreateCustomerAccount_Fast():
   def setup_method(self, method):
@@ -196,8 +213,8 @@ class TestCreateCustomerAccount_Fast():
     self.driver.find_element(By.CSS_SELECTOR, ".ml-5").click()
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".mt-3")))
     self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").click()
-    self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").send_keys("Acc1")
-    self.driver.find_element(By.CSS_SELECTOR, ".e-address-desc").send_keys("Account 1")
+    self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").send_keys("Acc4")
+    self.driver.find_element(By.CSS_SELECTOR, ".e-address-desc").send_keys("Account 4")
     sleep(0.3)
     
     # Islem yapilacak alan ekranda gorunmedigi icin sayfayi asagiya kaydirdik
@@ -220,9 +237,9 @@ class TestCreateCustomerAccount_Fast():
     sleep(0.1)
     self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[3]/div/div[2]/input").click()
     sleep(0.1)
-    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[3]/div/div[2]/input").send_keys("Oklahoma")
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[3]/div/div[2]/input").send_keys("Red Street")
     sleep(0.1)
-    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[4]/div/div[2]/textarea").send_keys("Oklahoma Apartment")
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/app-main-layout/div/div/div/div/form/div[1]/div[4]/div/div[2]/textarea").send_keys("Scott Apartment")
     sleep(0.1)
 
     body.send_keys(Keys.PAGE_DOWN)
@@ -234,8 +251,7 @@ class TestCreateCustomerAccount_Fast():
     sleep(0.2)
     self.driver.execute_script("window.scrollTo(0,0)")
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".e-layout-title")))
-    assert self.driver.find_element(By.CSS_SELECTOR, "#flush-heading3 .col-2:nth-child(4)").text == "Acc1"
-
+    assert self.driver.find_element(By.CSS_SELECTOR, "#flush-heading3 .col-2:nth-child(4)").text == "Acc3"
 
     arrow = self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/app-main-layout/div/div/div[2]/div/app-table-accordion[3]/div/div/h2/button/div/div[1]/img").click()
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".e-accordion-header > .col-2:nth-child(2)")))
@@ -244,3 +260,4 @@ class TestCreateCustomerAccount_Fast():
     sleep(0.2)
 
     self.driver.save_screenshot(f"new_customer_account_fast_{date.today()}.png")
+    sleep(0.2)
