@@ -253,6 +253,3 @@ class Test_sort_by:
         assert first_item.text == constants.item_list["Fourth"][0] 
         sleep(1)
         self.driver.save_screenshot(f"sort_of_highprice_{date.today()}.png")
-
-        # get.attribute.type = Password type
-        #
