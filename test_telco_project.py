@@ -1,6 +1,7 @@
 import pytest
 import time
 import json
+import excel_import
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -19,7 +20,7 @@ from time import sleep
 # 4 - Musteri Fatura Hesabi olusturma testi (Hizli)
 
 
-
+userlist = excel_import.userlist
   ########### 1- Sisteme giris yapan test otomasyonu
 
 class TestSistemeGiris():
@@ -136,7 +137,7 @@ class TestCreateCustomerAccount_Slow():
     self.driver.get("http://localhost:4200/dashboard/customers/customer-billing-account-detail/2")
     self.driver.set_window_size(1552, 849)
     sleep(3)
-    self.driver.find_element(By.CSS_SELECTOR, ".ml-5").click()
+    self.driver.find_element(By.CSS_SELECTOR, ".ml-5").click() 
     WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, ".mt-3")))
     sleep(1)
     self.driver.find_element(By.CSS_SELECTOR, ".e-input-dark").click()
@@ -261,3 +262,49 @@ class TestCreateCustomerAccount_Fast():
 
     self.driver.save_screenshot(f"new_customer_account_fast_{date.today()}.png")
     sleep(0.2)
+
+
+    ########### 5- Sisteme giris yapan test otomasyonu
+
+class TestMultiSistemeGiris():
+
+  # Setup Method testlerimizin baslangicinda gerceklesecek komutlari barindirir
+  def setup_method(self, method):
+    self.driver = webdriver.Chrome()
+    
+  # Teardown Method testlerimizin sonunda gerceklesecek komutlari barindirir
+  def teardown_method(self, method):
+    self.driver.quit()
+  @pytest.mark.parametrize("username,password",[(userlist["username"][0],userlist["password"][0]),(userlist["username"][1],userlist["password"][1]),(userlist["username"][2],userlist["password"][2])])
+  def test_sistemeGiris(self, username, password):
+
+    # Testin baslangicinda kullanilan URL
+    self.driver.get("http://localhost:4200/login")
+
+    # Ekran boyutu degistirildi
+    self.driver.set_window_size(1520, 819)
+
+    # Bir sonraki komuta gecmeden once login ekranindaki "username" yazisi gorunene kadar bekler (Xpath kullanildi)
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.XPATH, "/html/body/app-root/ng-component/div/div[2]/div/div[2]/form/div/div[1]/input")))
+   
+    # Username girdi alani icin degisken tanimlandi
+    username_selector = self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div[2]/div/div[2]/form/div/div[1]/input")
+    # Girdi alanina tiklandi
+    username_selector.click()
+    # Girdi alanina "admin" yazildi
+    username_selector.send_keys(username)
+
+    # Ayni islemler password icin yapildi
+    password_selector = self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div[2]/div/div[2]/form/div/div[2]/input")
+    password_selector.click()
+    password_selector.send_keys(password)
+
+    # Login butonu click
+    self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div[2]/div/div[2]/form/div/button").click()
+    
+    # Customer Search ekrani gorunene kadar bekleyen komut
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.XPATH, "/html/body/app-root/ng-component/div/div/div/div[2]/div/app-container/p")))
+    sleep(1)
+    # Son olarak "Search Results" yazisini kontrol ederek, giris yapildigini dogruluyoruz ve testimiz bu yaziya gore true veya false donuyor
+    assert self.driver.find_element(By.XPATH, "/html/body/app-root/ng-component/div/div/div/div[2]/div/app-container/p").text == "SEARCH RESULT"
+  
