@@ -128,7 +128,7 @@ class Test_basket_control:
 
 ##############################################################################################
 
-# Test Case 3: Sistemden cikis yapildiginda sepete ulasilmamalidir
+# Test Case 3: After logout, user will not be able to access the basket.
 
 
 class Test_log_out_basket:
