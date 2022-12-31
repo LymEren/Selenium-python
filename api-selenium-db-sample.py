@@ -47,3 +47,19 @@ def safe_clicker(pth, work_mode=0, wt=15, writer=""):
         driver.find_element(By.XPATH, pth).click()
     if writer != '':
         driver.find_element(By.XPATH, pth).send_keys(writer)
+
+def load_waiter():
+    pth = "//*[text()='Loading...']"
+    WebDriverWait(driver, 30).until(expected_conditions.visibility_of_element_located((By.XPATH, pth)))
+    WebDriverWait(driver, 30).until_not(expected_conditions.visibility_of_element_located((By.XPATH, pth)))
+
+def page_scroller(y=500, x=0):
+    driver.execute_script(f"window.scrollBy({x},{y})", "")
+
+# 3- Registering with the API
+def api_register():
+    url = 'API URL'
+    myReq = {'Your API request'}
+    logReq = requests.post(url, json=myReq)
+    sampleOne = logReq.json()["Related Column"]
+    print(f"Sample One: {sampleOne}\n")
