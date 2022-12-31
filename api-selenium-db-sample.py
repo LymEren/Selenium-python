@@ -63,3 +63,56 @@ def api_register():
     logReq = requests.post(url, json=myReq)
     sampleOne = logReq.json()["Related Column"]
     print(f"Sample One: {sampleOne}\n")
+
+# 4- Automate a process using Selenium
+def selenium_ui():
+    driver.get("Your URL")
+    driver.maximize_window()
+
+    # Login Page
+    safe_clicker("//*[text()='Login']")
+    # ...
+    # ...
+
+    load_waiter()
+    page_scroller()
+    sample_id = driver.find_element(By.XPATH, "Example").text
+    print(f'Sample ID: {sample_id}')
+    return sample_id
+
+# 5- DB order Query
+def db_complete():
+
+    connectDbTest = psycopg2.connect(host="", database="", port="",
+                                     user="", password="")
+
+    sampleCursor = connectDbTest.cursor()
+    sampleCursor.execute(f'Query')
+    sampleResult = sampleCursor.fetchall()
+
+    # ... Information about the related API
+
+    api_complete = "Other API"
+    headers = {
+        'Authorization': f'{myToken}',
+        'LocalToken': '1',
+        'Content-Type': 'application/json'
+    }
+    response = requests.request("POST", url=api_complete, headers=headers, data=None)
+
+# 6- Calling Functions
+
+# Register User
+api_register()
+input('Press any key after verify email...')
+
+# Sample Submit
+sample_id = selenium_ui()
+
+# Db Result
+db_complete()
+
+# After this section, information can be controlled.
+
+# if sampleResult == True
+#    print("\nSample Process Validated!")
