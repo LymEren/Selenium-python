@@ -1,3 +1,5 @@
+# We can call the relevant data from this file
+
 # Login Error Texts
 
 login_errors = {
