@@ -1,4 +1,4 @@
-<h3>Includes test cases using the Pytest framework and Selenium Webdriver</h3>
+<h3>Includes test cases using Selenium Webdriver</h3>
 
 Eyyub Eren
 
