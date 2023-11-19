@@ -2,5 +2,6 @@
 
 Eyyub Eren
 
-Update: New applications were developed using API and database.
+v1: My old works
+v2: My current works  
 
